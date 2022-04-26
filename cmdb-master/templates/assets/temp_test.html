@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>模态框</title>
+    <link rel="stylesheet" href="static/css/bootstrap.min.css">
+</head>
+<body>
+<h2>创建模态框</h2>
+<button class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">模态框</button><!--data-target="#myModal
+"执行弹窗的div的id-->
+<div class="modal fade" id="myModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title">弹窗</h4><!--弹窗的标题-->
+            </div>
+            <div class="modal-body"><!--弹窗的内容-->
+                <p>弹窗的内容</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button><!--弹窗的尾部-->
+                <button type="button" class="btn btn-primary">保存</button>
+            </div>
+        </div>
+    </div>
+</div>
+<script src="static/js/jquery-3.5.1.min.js"></script>
+<script src="static/js/bootstrap.min.js"></script>
+</body>
+</html>

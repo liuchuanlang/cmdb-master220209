@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+{% load static %}
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+    <table class="data-table table table-bordered table-hover table-responsive">
+            <thead>
+                <tr>
+                    <th width="5%">序号</th>
+                    <th width="25%">活动主题</th>
+                    <th width="25%">营销内容</th>
+                    <th width="15%">营销时间</th>
+                    <th width="10%">创建者</th>
+                    <th width="20%">操作</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr>
+                    <td>1</td>
+                    <td data-class="xd-table-th"><span title="五一大放送">五一大放送</span></td>
+                    <td data-class="xd-table-th"><span title="五一大放送，全场五折起">五一大放送，全场五折起五一大放送，全场五折起五一大放送，全场五折起五一大放送，全场五折起</span></td>
+                    <td><span title="2019-02-28">2019-02-28</span></td>
+                    <td><span title="Jwen">Jwen</span></td>
+                    <td>
+                        <a href="javascript:void(0);">编辑</a>
+                        <a href="javascript:void(0);">删除</a>
+                        <a href="javascript:void(0);">查看效果</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+</body>
+</html>
+
+<style>
+    table{
+    text-align:center;
+    table-layout:fixed;
+    word-break:break-all;
+}
+
+    table td>span{
+        display: inline-block;
+        width: 100%;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow:ellipsis;
+    }
+</style>
+

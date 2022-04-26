@@ -1,0 +1,611 @@
+{% extends 'base.html' %}
+{% load static %}
+
+  {% block title %}
+  <title>审计</title>
+  {% endblock title %}
+
+		  {% block leftnav %}
+          <li class="nav-item">
+            <a href="{% url 'assets:index' %}" class="nav-link">
+              <i class="nav-icon fas fa-tachometer-alt"></i>
+              <p>
+                仪表盘
+              </p>
+            </a>
+          </li>
+
+		  <li class="nav-item">
+            <a href="{% url 'assets:hardware' %}" class="nav-link">
+              <i class="nav-icon fas fa-copy"></i>
+              <p>
+                硬件资产
+              </p>
+            </a>
+          </li>
+		  <li class="nav-item">
+            <a href="{% url 'assets:software' %}" class="nav-link">
+              <i class="nav-icon far fa-credit-card"></i>
+              <p>
+                软件资产
+              </p>
+            </a>
+          </li>
+		  <li class="nav-item has-treeview">
+            <a href="#" class="nav-link">
+              <i class="nav-icon fas fa-history"></i>
+              <p>
+                日志审计
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'assets:audit_login' %}" class="nav-link ">
+                  <i class="fas fa-user-edit nav-icon"></i>
+                  <p>用户日志</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'assets:operation' %}" class="nav-link">
+                  <i class="fas fa-wrench nav-icon"></i>
+                  <p>操作日志</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+        <li class="nav-item has-treeview menu-open">
+            <a href="#" class="nav-link active">
+              <i class="nav-icon fas fa-history"></i>
+              <p>
+                测试管理
+                <i class="right fas fa-angle-left"></i>
+              </p>
+            </a>
+            <ul class="nav nav-treeview">
+              <li class="nav-item">
+                <a href="{% url 'assets:testInterface' %}" class="nav-link active">
+                  <i class="fas fa-user-edit nav-icon"></i>
+                  <p>接口测试</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'assets:operation' %}" class="nav-link">
+                  <i class="fas fa-wrench nav-icon"></i>
+                  <p>性能测试</p>
+                </a>
+              </li>
+
+               <li class="nav-item">
+                <a href="{% url 'assets:operation' %}" class="nav-link">
+                  <i class="fas fa-wrench nav-icon"></i>
+                  <p>测试报告</p>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a href="{% url 'assets:operation' %}" class="nav-link">
+                  <i class="fas fa-wrench nav-icon"></i>
+                  <p>任务管理</p>
+                </a>
+              </li>
+            </ul>
+          </li>
+
+		  {% endblock leftnav %}
+
+	{% block navheader %}
+    <section class="content-header">
+      <div class="container-fluid">
+        <div class="row mb-1">
+          <div class="col-12">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="{% url 'assets:index' %}">首页</a></li>
+              <li class="breadcrumb-item active">接口测试</li>
+            </ol>
+          </div>
+        </div>
+      </div><!-- /.container-fluid -->
+    </section>
+
+	{% endblock navheader %}
+
+		  {% block content %}
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">接口测试<a href="javascript:void(0)" class="btn btn-sm btn-info ml-3 addsoft">新增</a></h3>
+				<div class="card-tools">
+				  <button type="button" class="btn btn-tool" data-widget="collapse">
+					<i class="fas fa-minus"></i>
+				  </button>
+				  <button type="button" class="btn btn-tool" data-widget="remove">
+					<i class="fas fa-times"></i>
+				  </button>
+				</div>
+            </div>
+            <!-- /.card-header -->
+            <div class="card-body" >
+              <table id="assets-lists"  class=" table-bordered  table text-nowrap" style='table-layout:fixed;'>
+
+                <thead>
+                <tr>
+				  <th>接口编号</th>
+				  <th class="center" style="width:10%">接口地址</th>
+				  <th>方法类型</th>
+				  <th>参数类型</th>
+				  <th>测试数据</th>
+				  <th>预期结果</th>
+                  <th>测试结果</th>
+                  <th>操作</th>
+                </tr>
+
+                </thead>
+                <tbody id="tbody">
+				{% for interface in interface_list %}
+                <tr>
+{#				{% if event.event_type == 3 or event.event_type == 4 %}#}
+{#				style="color:red;"#}
+{#				{% elif event.event_type == 1 or event.event_type == 5 %}#}
+{#				style="color:green;"#}
+{#				{% endif %}#}
+
+				  <td>{{ interface.interfaceid }}</td>
+				  <td>{{ interface.interfaceurl }}</td>
+				  <td>{{ interface.interfacetype }}</td>
+				  <td>{{ interface.get_paramtype_display }}</td>
+				  <td>{{ interface.testdata }}</td>
+                  <td>{{ interface.Expectedresults }}</td>
+				  <td>{{ interface.testresults }}</td>
+				  <td>
+                    <a href="javascript:void(0)" id="{{interface.interfaceid}}"  onclick="runmodel(this)" class="btn btn-sm btn-info ml-3 runInterface">运行</a>
+					<a href="#">修改</a>
+					<a href="javascript:void(0);" id="{{ interface.interfaceid }}" onclick="deletemodal(this);" title="{{ asset.get_sub_asset_type_display }},{{ asset.version }}">删除</a>
+				  </td>
+{#				  <td>{{ event.create_time|date:"Y/m/d H:m:s" }}</td>#}
+                </tr>
+				{% empty %}
+                <tr>没有数据！</tr>
+				{% endfor %}
+                </tbody>
+                <tfoot>
+{#                <tr>#}
+{#				  <th>用户名,昵称</th>#}
+{#				  <th>事件类型</th>#}
+{#				  <th>事件详情</th>#}
+{#				  <th>IP地址</th>#}
+{#				  <th>User_Agent</th>#}
+{#				  <th>事件时间</th>#}
+{#                </tr>#}
+                </tfoot>
+              </table>
+
+            </div>
+            <!-- /.card-body -->
+          </div>
+              <div id="run-container">
+              </div>
+			<!--新增软件资产窗口-->
+              <div id="modal-addsoft" class="iziModal">
+				<form role="form" method="POST" onsubmit="addsoft(this);return false;" class="form-inline">
+					{% csrf_token %}
+					<div class="container-fluid">
+						<div class="row p-3">
+						  <div class="col-12 mb-3">
+							<h4><strong>新增接口</strong></h4>
+						  </div>
+						  <div class="col-4 mb-3">
+							<label class="float-right">接口地址</label>
+						  </div>
+                          <div class="col-8 mb-3">
+							<input type="text" class="form-control" name="interfaceurl" maxlength="256" required style="width: 100%;">
+						  </div>
+                          <div class="col-4 mb-3">
+							<label class="float-right">请求类型</label>
+						  </div>
+                          <div class="col-8 mb-3">
+							<input type="radio" name="interfacetype" value="post" checked required style="width: 10%;"/>POST
+                            <input type="radio" name="interfacetype" value="get" required style="width: 10%;"/>GET
+
+                          </div>
+                          <div class="col-4 mb-3">
+							<label class="float-right">参数类型</label>
+						  </div>
+                          <div class="col-8 mb-3">
+                                <select class="form-control" name="paramtype" style="width: 100%;">
+								<option selected="selected">参数类型</option>
+								<option>Json</option>
+								<option>Text</option>
+							  </select>
+                          </div>
+
+                          <div class="col-4 mb-3">
+							<label class="float-right">测试数据</label>
+						  </div>
+                          <div class="col-8 mb-3">
+							<input type="text" class="form-control" name="testdata" maxlength="256" required style="width: 100%;">
+						  </div>
+                          <div class="col-4 mb-3">
+							<label class="float-right">预期结果</label>
+						  </div>
+                          <div class="col-8 mb-3">
+							<input type="text" class="form-control" name="Expectedresults" maxlength="256" required style="width: 100%;">
+						  </div>
+                          <div class="col-4 mb-3">
+							<label class="float-right">测试结果
+                            </label>
+						  </div>
+                          <div class="col-8 mb-3">
+							<input type="text" class="form-control" name="testresults" maxlength="256" required style="width: 100%;">
+						  </div>
+
+						  <div class="col-6 pl-3 pr-3">
+							<button type="button" class="btn btn-block btn-secondary btn-flat" data-iziModal-close>取消</button>
+						  </div>
+						  <div class="col-6 pl-3 pr-3">
+							<button type="submit" class="btn btn-block btn-success btn-flat" onclick="javascript:void(0);">新增</button>
+						  </div>
+						</div>
+					</div>
+			  </form>
+			</div>
+          <!-- /.card -->
+             <!-- 运行接口用例-->
+              <div id="interface_run" class="iziModal"></div>
+                <form role="form" method="post" onsubmit="runinterface(this);return false" class="form-inline" >
+                {% csrf_token %}
+                <div class="container-fluidiner">
+                    <div class="row p-3">
+                        <div class="col-12 mb-3">
+                            <h4><strong>项目名字</strong></h4>
+                        </div>
+                    </div>
+                </div>
+
+                </form>
+
+
+
+		  {% endblock content %}
+
+
+
+
+{% block js %}
+<script>
+    //运行接口
+    runmodel = function(event){
+        var  thisObj = $(event);
+        var  id = thisObj.attr('id');
+        console.log(id)
+
+        //生成弹出框
+        $("#run-container").html('<div id="modal-run-' + id + '" class="iziModal"><div class="container-fluid"><div class="row">\
+									<div class="col-12 p-3"><h5 class="text-center mt-3">确定运行接口 <' + id + '>  '+id+'        吗？</h5></div><div class="col-6 p-3">\
+									<button type="button" class="btn btn-block btn-secondary btn-flat" data-iziModal-close>取消</button></div><div class="col-6 p-3">\
+									<a href="javascript:void(0)"><button type="button" class="btn btn-block btn-success btn-flat" id="' + id + '-yes" title="\
+									' + id + '" onclick="runtestInterface(this);">确定</button></a></div></div></div></div>');
+    // 初始化弹出框
+		$("#modal-run-" + id).iziModal({
+			iconClass: 'icon-announcement',
+			width: 450,
+			padding: 10,
+			overlayClose: false,	// 是否允许点击模态窗口的外部来关闭模态窗口。
+			closeOnEscape: false, 	// 是否允许通过点击ESC键来关闭模态窗口。
+		});
+
+        //打开弹出框
+        $('#modal-run-'+id).iziModal('open');
+    }
+    runtestInterface = function(event){
+        toastr.options.closeButton = true;
+		toastr.options.showMethod = 'slideDown';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		toastr.options.timeOut = 4000;
+		toastr.options.extendedTimeOut = 0;
+
+		var thisObj = $(event);
+		var interfaceid = thisObj.attr("id").split("-")[0];
+		csrfmiddlewaretoken = '{{ request.COOKIES.csrftoken }}';
+		$.ajax({
+            url: "{% url 'assets:Interface_run' %}",
+            async: true,
+            type: "POST",
+            dataType: "json",
+            data: {
+                "csrfmiddlewaretoken":csrfmiddlewaretoken,
+                "id":interfaceid,
+            },
+            timeOut: 10000,
+            cache: true,
+            beforeSend:LoadFunction,
+            error:errFunction,
+            success:succFunction,
+        });
+
+		function LoadFunction() {
+
+        };
+        function errFunction() {
+
+        };
+        function succFunction(res) {
+            console.log("进入运行成功失败方法");
+            if (res.code !=200){
+               console.log(res);
+              $('#modal-run-'+assets_id).iziModal('close'),
+               toastr.error('删除错误<'+assets_id+'>')
+            }else {
+
+                var dttable = $('#assets-lists').DataTable();
+                dttable.destroy()
+                $('asset'+ assets_id).remove()
+                $('#assets-lists').DataTable({
+                    language:{
+                       "sProcessing": "处理中...",
+						"sLengthMenu": "显示 _MENU_ 项结果",
+						"sZeroRecords": "没有匹配结果",
+						"sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+						"sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+						"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+						"sInfoPostFix": "",
+						"sSearch": "搜索:",
+						"sUrl": "",
+						"sEmptyTable": "表中数据为空",
+						"sLoadingRecords": "载入中...",
+						"sInfoThousands": ",",
+						"oPaginate": {
+							"sFirst": "首页",
+							"sPrevious": "上页",
+							"sNext": "下页",
+							"sLast": "末页"
+						},
+						"oAria": {
+							"sSortAscending": ": 以升序排列此列",
+							"sSortDescending": ": 以降序排列此列"
+						}
+                    },
+                    destroy: true,
+                    bProcessing: true,
+                    lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]],
+                    order: [],
+                    scrollY: 480,
+                    scrollCollapse:true,
+                    jQuery:true,
+                    stateSave:true,
+                    stateDuration:86400,
+                });
+
+                $("#modal-run-" + assets_id).iziModal('close')
+                toastr.success('运行用例成功'+ assets_id)
+            }
+        };
+
+
+    }
+
+
+
+
+//删除接口
+ deletemodal = function(event){
+        var thisObj = $(event);
+        var id = thisObj.attr('id');
+        console.log(id)
+        $("#run-container").html('<div id="modal-delete-' + id + '" class="iziModal"><div class="container-fluid"><div class="row">\
+									<div class="col-12 p-3"><h5 class="text-center mt-3">确定删除接口 <' + id + '>  '+id+'        吗？</h5></div><div class="col-6 p-3">\
+									<button type="button" class="btn btn-block btn-secondary btn-flat" data-iziModal-close>取消</button></div><div class="col-6 p-3">\
+									<a href="javascript:void(0)"><button type="button" class="btn btn-block btn-success btn-flat" id="' + id + '-yes" title="\
+									' + id + '" onclick="deletetestInterface(this);">确定</button></a></div></div></div></div>');
+
+
+        // 初始化弹出框
+		$("#modal-delete-" + id).iziModal({
+			iconClass: 'icon-announcement',
+			width: 450,
+			padding: 10,
+			overlayClose: false,	// 是否允许点击模态窗口的外部来关闭模态窗口。
+			closeOnEscape: false, 	// 是否允许通过点击ESC键来关闭模态窗口。
+		});
+    $('#modal-delete-'+id).iziModal('open');
+    }
+    deletetestInterface = function(event){
+        toastr.options.closeButton = true;
+		toastr.options.showMethod = 'slideDown';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		toastr.options.timeOut = 4000;
+		toastr.options.extendedTimeOut = 0;
+
+		var thisObj = $(event);
+		var assets_id = thisObj.attr("id").split("-")[0];
+		csrfmiddlewaretoken = '{{ request.COOKIES.csrftoken }}';
+		$.ajax({
+            url: "{% url 'assets:Interface_delete' %}",
+            async: true,
+            type: "POST",
+            dataType: "json",
+            data: {
+                "csrfmiddlewaretoken":csrfmiddlewaretoken,
+                "id":assets_id,
+            },
+            timeOut: 10000,
+            cache: true,
+            beforeSend:LoadFunction,
+            error:errFunction,
+            success:succFunction,
+        });
+
+		function LoadFunction() {
+
+        };
+        function errFunction() {
+
+        };
+        function succFunction(res) {
+            console.log("进入删除成功方法");
+            if (res.code !=200){
+               console.log(res);
+              $('#modal-delete-'+assets_id).iziModal('close'),
+               toastr.error('删除错误<'+assets_id+'>')
+            }else {
+
+                var dttable = $('#assets-lists').DataTable();
+                dttable.destroy()
+                $('asset'+ assets_id).remove()
+                $('#assets-lists').DataTable({
+                    language:{
+                       "sProcessing": "处理中...",
+						"sLengthMenu": "显示 _MENU_ 项结果",
+						"sZeroRecords": "没有匹配结果",
+						"sInfo": "显示第 _START_ 至 _END_ 项结果，共 _TOTAL_ 项",
+						"sInfoEmpty": "显示第 0 至 0 项结果，共 0 项",
+						"sInfoFiltered": "(由 _MAX_ 项结果过滤)",
+						"sInfoPostFix": "",
+						"sSearch": "搜索:",
+						"sUrl": "",
+						"sEmptyTable": "表中数据为空",
+						"sLoadingRecords": "载入中...",
+						"sInfoThousands": ",",
+						"oPaginate": {
+							"sFirst": "首页",
+							"sPrevious": "上页",
+							"sNext": "下页",
+							"sLast": "末页"
+						},
+						"oAria": {
+							"sSortAscending": ": 以升序排列此列",
+							"sSortDescending": ": 以降序排列此列"
+						}
+                    },
+                    destroy: true,
+                    bProcessing: true,
+                    lengthMenu:[[10, 25, 50, 100, -1], [10, 25, 50, 100, "全部"]],
+                    order: [],
+                    scrollY: 480,
+                    scrollCollapse:true,
+                    jQuery:true,
+                    stateSave:true,
+                    stateDuration:86400,
+                });
+
+                $("#modal-delete-" + assets_id).iziModal('close')
+                toastr.success('删除用例成功'+ assets_id)
+            }
+        };
+
+
+    }
+
+
+
+//新增接口用例窗口
+    $('#modal-addsoft').iziModal({
+        iconClass: 'icon-announcement',
+		//width: 400,
+		padding: 10,
+		overlayClose: false,	// 是否允许点击模态窗口的外部来关闭模态窗口。
+		closeOnEscape: false, 	// 是否允许通过点击ESC键来关闭模态窗口。
+    });
+    $(document).on('click', '.addsoft', function (event) {
+        event.preventDefault();
+		$('#modal-addsoft').iziModal('open');
+    });
+
+    addsoft = function(event) {
+		toastr.options.closeButton = true;
+		toastr.options.showMethod = 'slideDown';
+		toastr.options.hideMethod = 'fadeOut';
+		toastr.options.closeMethod = 'fadeOut';
+		toastr.options.timeOut = 4000;
+		toastr.options.extendedTimeOut = 0;
+		try {
+		var thisObj = $(event);	//js对象转jquery对象
+        var interfaceurl = $(thisObj.find("input[name='interfaceurl']")[0]).val();
+        var interfacetype = $(thisObj.find("input[type='radio']:checked")).val();
+        var paramtype = $(thisObj.find("select[name='paramtype'] option:selected")[0]).val()
+
+        var testdata = $(thisObj.find("input[name='testdata']")[0]).val()
+        var Expectedresults = $(thisObj.find("input[name='Expectedresults']")[0]).val()
+        var testresults = $(thisObj.find("input[name='testresults']")[0]).val()
+		{#var subassettype = $(thisObj.find("select[name='subassettype'] option:selected")[0]).val();#}
+		if (paramtype == "Text") {
+			paramtype = 0;
+		} else if (paramtype == "Json") {
+            paramtype = 1;
+        }{#var user = $(thisObj.request.user);#}
+
+csrfmiddlewaretoken = '{{ request.COOKIES.csrftoken }}';
+		{#console.log(subassettype_tmp,licensenum)#}
+		$.ajax({
+			url: "{% url 'assets:add_testInterface' %}",
+			async: true,
+			type: 'POST',
+			dataType: 'json',
+			data: {
+				'csrfmiddlewaretoken': csrfmiddlewaretoken,
+				'interfaceurl': interfaceurl,
+				'interfacetype': interfacetype,
+                'paramtype': paramtype,
+                'testdata': testdata,
+                'Expectedresults': Expectedresults,
+                'testresults': testresults
+
+			},
+			timeout: 10000,
+			cache: true,
+			beforeSend: LoadFunction, //加载执行方法
+			error: errFunction,  //错误执行方法
+			success: succFunction, //成功执行方法
+		});
+
+		function LoadFunction() {
+			//$("#aboutcontent").html('删除中...');
+			//alert('删除中');
+		};
+
+		function errFunction() {
+			// 消息框
+			toastr.error('新增软件资产错误');
+		};
+
+		function succFunction(res) {
+			if (res.code != 200) {
+				// 消息框
+				toastr.error('新增软件资产错误: ' + res.err);
+			} else {
+				// 消息框
+				toastr.success('新增软件资产成功');
+				var dttable = $('#assets-lists').DataTable();
+				{#var rowNode = dttable.row.add([licensenum, subassettype_tmp, request.user, GetDate(2), GetDate(2), '修改 删除']).draw().node();#}
+                console.log("获取到的列表数据："+rowNode)
+				//$(rowNode).css('color', 'red').animate({color: 'black'});
+			}
+		};
+
+		// 关闭弹出框
+		$("#modal-addsoft").iziModal('close');
+		$(thisObj.find("input[name='licensenum']")[0]).val('1');
+		$(thisObj.find("input[name='version']")[0]).val('');
+		} catch(err) {
+		console.log(err);
+		}
+		return false;
+	}
+
+
+
+
+
+
+
+</script>
+{% endblock js %}
+<style>
+    	{#表单溢出打点显示#}
+    .table tbody tr td{
+       overflow: hidden;
+       text-overflow:ellipsis;
+       white-space: nowrap;
+     }
+</style>

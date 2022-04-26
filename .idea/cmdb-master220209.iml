@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<module type="PYTHON_MODULE" version="4">
+  <component name="NewModuleRootManager">
+    <content url="file://$MODULE_DIR$">
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/templates/assets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/.idea" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/.pytest_cache" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/assets" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/latest_logs" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/login" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/mycmdb" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/screenshots" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/templates" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/users" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/util" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/SBSrapy" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/SBSrapy/PCofficeroom" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/SBSrapy/PCofficeroom/PCofficeroom" isTestSource="false" />
+      <sourceFolder url="file://$MODULE_DIR$/cmdb-master/SBSrapy/PCofficeroom/PCofficeroom/spiders" isTestSource="false" />
+      <excludeFolder url="file://$MODULE_DIR$/venv" />
+    </content>
+    <orderEntry type="jdk" jdkName="Python 3.6 (cmdb-master220209) (2)" jdkType="Python SDK" />
+    <orderEntry type="sourceFolder" forTests="false" />
+  </component>
+  <component name="TemplatesService">
+    <option name="TEMPLATE_CONFIGURATION" value="Jinja2" />
+  </component>
+  <component name="TestRunnerService">
+    <option name="projectConfiguration" value="pytest" />
+    <option name="PROJECT_TEST_RUNNER" value="pytest" />
+  </component>
+</module>
