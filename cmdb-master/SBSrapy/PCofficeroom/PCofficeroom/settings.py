@@ -96,7 +96,7 @@ import  datetime
 
 # to_day = datetime.now()
 LOG_FILE = "mySpider.log"
-LOG_LEVEL = "WARNING"
+LOG_LEVEL = "INFO"
 LOG_ENABLED = True #是否启动日志记录，默认True
 LOG_ENCODING = 'UTF-8'
 

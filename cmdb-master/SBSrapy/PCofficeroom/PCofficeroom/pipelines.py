@@ -9,7 +9,7 @@ import pymysql
 from scrapy.utils.project import get_project_settings
 
 class PcofficeroomPipeline(object):
-    InsertSQL = '''insert into room_copy(roomid, title)VALUES('{roomid}', '{title}')'''
+    InsertSQL = '''insert into room(roomid, title)VALUES('{roomid}', '{title}')'''
 
     def __init__(self):
         # self.conn = pymysql.connect(host="118.190.36.135",user="root",passwd="1111",db="hexun")

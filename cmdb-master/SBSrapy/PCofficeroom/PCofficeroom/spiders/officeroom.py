@@ -47,7 +47,7 @@ class OfficeSpider(scrapy.Spider):
         page_result = int(page_num[0])
         print(page_result)
 
-        if page_result < 804:
+        if page_result < 794:
             nex_page = int(page_result) + 1
             url = ''.join([init_url, str(nex_page), '/'])
             print('starting scrapy url:',url)
